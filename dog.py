@@ -1,8 +1,12 @@
 class Dog:
-    def __init__(self, name):
+    def __init__(self, name, breed):
         self.name = name
+        self.breed = breed
         print("dog initialized")
 
-my_dog = Dog("Rex")
-print(my_dog)
-print(my_dog.name)
+    def bark(self):
+        print("Woof!")
+
+my_dog = Dog("Rex", "Superdog")
+
+my_dog.bark()
