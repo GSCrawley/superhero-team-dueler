@@ -38,14 +38,14 @@ class Hero:
             total_damage += ability.attack()
         return total_damage
 
-#     def add_armor(self, armor):
-#         self.armors.append(armor)
+    def add_armor(self, armor):
+        self.armors.append(armor)
 
-#     def defend(self):
-#         total_block = 0
-#         for armor in self.armors:
-#             total_block += armor.block()
-#         return total_block
+    def defend(self):
+        total_block = 0
+        for armor in self.armors:
+            total_block += armor.block()
+        return total_block
 
       # TODO: This method should run Ability.attack() on every ability
       # in self.abilities and returns the total as an integer.
