@@ -12,15 +12,15 @@ class Ability:
 
         ''' Return a value between 0 and the value set by self.max_damage.'''
 
-# class Armor:
-#     def __init__(self, name, max_block):
-#         self.name = name
-#         self.max_block = max_block
+class Armor:
+    def __init__(self, name, max_block):
+        self.name = name
+        self.max_block = max_block
 
-    # def block(self):
-    #     ''' Return a random value between 0 and the initialized max_block strength. '''
-    #     return random.randint(0,max_block)
-
+    def block(self):
+        # ''' Return a random value between 0 and the initialized max_block strength. '''
+        # return random.randint(0,max_block)
+     pass
 # class Hero:
 #     def __init__(self, name, starting_health=100):
 #         self.name = name
@@ -63,14 +63,9 @@ class Ability:
 #     def is_alive(self):
 #
 #     def fight(self, opponent):
-#
+
 if __name__ == "__main__":
-    # If you run this file from the terminal
-    # this block of code is executed.
-    ability = Ability("Great Debugging", 20)
-    # another_ability = Ability("Smarty Pants", 90)
-    # hero = Hero("Grace Hopper", 200)
-    # hero.add_ability(ability)
-    # hero.add_ability(another_ability)
-    print(ability.name)
-    print(ability.attack())
+    armor = Armor("Debugging Shield", 10)
+    print(armor.name)
+    print(armor.block())
+ 
