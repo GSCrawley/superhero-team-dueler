@@ -52,7 +52,6 @@ class Hero:
         defense = self.defend(damage)
         self.current_health -= damage - defense
 
-    
     def is_alive(self):
         if self.current_health <= 0:
             return False
@@ -95,19 +94,22 @@ class Hero:
                 self.status = "Alive"
                 print(self.name + " won!")
                 fighting = False
-            # else: 
-            #     fighting = True
+            else: 
+                fighting = True
+
+    def add_weapon(self, weapon):
+        self.abilities.append(weapon)
+
+class Weapon(Ability):
+    def attack(self):
+        return random.randint(self.max_damage//2, self.max_damage)
+
+
+
 
 
 if __name__ == "__main__":
-    hero1 = Hero("Wonder Woman")
-    hero2 = Hero("Dumbledore")
-    ability1 = Ability("Super Speed", 300)
-    ability2 = Ability("Super Eyes", 130)
-    ability3 = Ability("Wizard Wand", 380)
-    ability4 = Ability("Wizard Beard", 220)
-    hero1.add_ability(ability1)
-    hero1.add_ability(ability2)
-    hero2.add_ability(ability3)
-    hero2.add_ability(ability4)
-    hero1.fight(hero2)
+    hero = Hero("Wonder Woman")
+    weapon = Weapon("Lasso of Truth", 90)
+    hero.add_weapon(weapon)
+    print(hero.attack())
