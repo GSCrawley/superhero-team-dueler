@@ -55,14 +55,19 @@ class Hero:
     def take_damage(self, damage):
         defense = self.defend(damage)
         self.current_health -= damage - defense
-#
-#     def is_alive(self):
-#
-#     def fight(self, opponent):
+
+    
+    def is_alive(self):
+        if self.current_health <= 0:
+            return False
+        else:
+            return True
+
+    # def fight(self, opponent):
 
 if __name__ == "__main__":
         hero = Hero("Grace Hopper", 200)
-        shield = Armor("Shield", 75)
-        hero.add_armor(shield)
-        hero.take_damage(50)
-        print(hero.current_health)
+        hero.take_damage(150)
+        print(hero.is_alive())
+        hero.take_damage(15000)
+        print(hero.is_alive())
