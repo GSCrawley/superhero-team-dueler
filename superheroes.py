@@ -10,15 +10,12 @@ class Ability:
         rand_hit = random.randint(0,self.max_damage)
         return rand_hit
 
-        ''' Return a value between 0 and the value set by self.max_damage.'''
-
 class Armor:
     def __init__(self, name, max_block):
         self.name = name
         self.max_block = max_block
 
     def block(self):
-        ''' Return a random value between 0 and the initialized max_block strength. '''
         rand_block = random.randint(0, self.max_block)
         return rand_block
     
@@ -29,6 +26,9 @@ class Hero:
         self.name = name
         self.starting_health = starting_health
         self.current_health = starting_health   
+        self.deaths = 0
+        self.kills = 0
+        self.status = "Alive"
         
     def add_ability(self, ability):
         self.abilities.append(ability)
@@ -48,10 +48,6 @@ class Hero:
             total_block += armor.block()
         return total_block
 
-      # TODO: This method should run Ability.attack() on every ability
-      # in self.abilities and returns the total as an integer.
-
-
     def take_damage(self, damage):
         defense = self.defend(damage)
         self.current_health -= damage - defense
@@ -63,11 +59,55 @@ class Hero:
         else:
             return True
 
-    # def fight(self, opponent):
+    def add_kill(self, num_kills):
+        self.kills += num_kills
+
+    def add_deaths(self, num_deaths):
+        self.deaths += num_deaths
+    
+    def fight(self, opponent):
+        fighting = True
+        while fighting == True:
+            if self.abilities == None:
+                return "Draw"
+                fighting = False
+            else:
+                hero1_attack = self.attack()
+                hero2_attack = opponent.attack()
+
+                hero1_defense = self.defend(1)
+                hero2_defense = opponent.defend(1)
+
+                self.take_damage(hero2_attack)
+                opponent.take_damage(hero1_attack)
+
+            if self.is_alive() == False:
+                opponent.add_kill(1)
+                self.add_deaths(1)
+                self.status = "Dead"
+                opponent.status = "Alive"
+                print(opponent.name + " won!")
+                fighting = False
+            elif opponent.is_alive() == False:
+                self.add_kill(1)
+                opponent.add_deaths(1)
+                opponent.status = "Dead"
+                self.status = "Alive"
+                print(self.name + " won!")
+                fighting = False
+            # else: 
+            #     fighting = True
+
 
 if __name__ == "__main__":
-        hero = Hero("Grace Hopper", 200)
-        hero.take_damage(150)
-        print(hero.is_alive())
-        hero.take_damage(15000)
-        print(hero.is_alive())
+    hero1 = Hero("Wonder Woman")
+    hero2 = Hero("Dumbledore")
+    ability1 = Ability("Super Speed", 300)
+    ability2 = Ability("Super Eyes", 130)
+    ability3 = Ability("Wizard Wand", 380)
+    ability4 = Ability("Wizard Beard", 220)
+    hero1.add_ability(ability1)
+    hero1.add_ability(ability2)
+    hero2.add_ability(ability3)
+    hero2.add_ability(ability4)
+    hero1.fight(hero2)
