@@ -2,12 +2,12 @@ import random
 
 class Ability:
 
-    def __init__(self, name, attack_strength):
+    def __init__(self, name, max_damage):
         self.name = name
-        self.attack_strength = attack_strength
+        self.max_damage = max_damage
 
     def attack(self):
-        rand_hit = random.randint(0,self.attack_strength)
+        rand_hit = random.randint(0,self.max_damage)
         return rand_hit
 
         ''' Return a value between 0 and the value set by self.max_damage.'''
@@ -19,7 +19,8 @@ class Armor:
 
     def block(self):
         ''' Return a random value between 0 and the initialized max_block strength. '''
-        return random.randint(0,max_block)
+        rand_block = random.randint(0, self.max_block)
+        return rand_block
     
 class Hero:
     def __init__(self, name, starting_health=100):
@@ -41,7 +42,7 @@ class Hero:
     def add_armor(self, armor):
         self.armors.append(armor)
 
-    def defend(self):
+    def defend(self, damage_amt):
         total_block = 0
         for armor in self.armors:
             total_block += armor.block()
@@ -50,18 +51,15 @@ class Hero:
       # TODO: This method should run Ability.attack() on every ability
       # in self.abilities and returns the total as an integer.
 
-#
-#     def defend(self, incoming_damage):
-#
-#     def take_damage(self, damage):
+
+    def take_damage(self, damage):
+        defense = self.defend()
+        self.current_health -= damage - defense
 #
 #     def is_alive(self):
 #
 #     def fight(self, opponent):
 if __name__ == "__main__":
-        ability = Ability("Great Debugging", 50)
-        another_ability = Ability("Smarty Pants", 90)
-        hero = Hero("Grace Hopper", 200)
-        hero.add_ability(ability)
-        hero.add_ability(another_ability)
-        print(hero.attack())
+        armor = Armor("Debugging Shield", 10)
+        print(armor.name)
+        print(armor.block())
