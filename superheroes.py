@@ -59,7 +59,11 @@ class Hero:
 #     def is_alive(self):
 #
 #     def fight(self, opponent):
+
 if __name__ == "__main__":
-        armor = Armor("Debugging Shield", 10)
-        print(armor.name)
-        print(armor.block())
+        ability = Ability("Great Debugging", 50)
+        another_ability = Ability("Smarty Pants", 90)
+        hero = Hero("Grace Hopper", 200)
+        hero.add_ability(ability)
+        hero.add_ability(another_ability)
+        print(hero.attack())
