@@ -168,13 +168,49 @@ class Team:
         elif len(living_heroes) == len(living_opponents):
             return "Draw!"
 
+class Arena:
+    def __init__(self):
+        self.team_one = None
+        self.team_two = None
+        self.winning_team = None
 
-            # TODO: Complete the following steps:
-            # 1) Randomly select a living hero from each team (hint: look up what random.choice does)
-            # 2) have the heroes fight each other (Hint: Use the fight method in the Hero class.)
-            # 3) update the list of living_heroes and living_opponents
-            # to reflect the result of the fight
+    def create_ability(self):
+        name = input("What is the ability name?  ")
+        max_damage = input(
+            "What is the max damage of the ability?  ")
 
+        return Ability(name, max_damage)
+
+    def create_weapon(self):
+         name = input("What weapon does this hero use? ")
+         max_damage = input("What is the max damage of the weapon? ")
+         
+         return Weapon(name, max_damage)
+
+    def create_armor(self):
+        name = input("What kind of armor does this hero use? ")
+        damage_amt = input("What's the blocking power of this armor? ")
+
+        return Armor(name, damage_amt)
+
+    def create_hero(self):
+        hero_name = input("Hero's name: ")
+        hero = Hero(hero_name)
+        add_item = None
+        while add_item != "4":
+           add_item = input("[1] Add ability\n[2] Add weapon\n[3] Add armor\n[4] Done adding items\n\nYour choice: ")
+           if add_item == "1":
+               hero_ability = input("Ability: ")
+               ability = Ability(hero_ability)
+           elif add_item == "2":
+               hero_weapon = input("Weapon: ")
+               weapon = Weapon(hero_weapon)
+               input("What weapon do they use?: ")
+           elif add_item == "3":
+               hero_armor = input("Armor type: ")
+               armor = Armor(hero_armor)
+
+        return hero
 
 if __name__ == "__main__":
     hero = Hero("Wonder Woman")
