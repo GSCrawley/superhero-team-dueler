@@ -212,6 +212,45 @@ class Arena:
 
         return hero
 
+    def build_team_one(self):
+        name = input("Team 1 Name: ")
+        num_of_heroes = int(input("How many heroes?: "))
+        self.build_team_one = Team(name)
+
+        for i in range(num_of_heroes):
+            hero = self.create_hero()
+            self.build_team_one.add_hero(hero)
+        
+        self.build_team_one.view_all_heroes()
+        # TODO: This method should allow a user to create team one.
+        # 1) Prompt the user for the name of the team
+        # 2) Prompt the user for the number of Heroes on the team
+        # 3) Instantiate a new Team object,
+        # using the team name obtained from user input
+        # 4) use a loop to call self.create_hero() for the number
+        # of heroes the user specified the team should have,
+        # and then add the heroes to the team.
+        pass
+
+    def build_team_two(self):
+        name = input("Team 2 Name: ")
+        num_of_heroes = int(input("How many heroes?: "))
+        self.build_team_two = Team(name)
+
+        for i in range(num_of_heroes):
+            hero = self.create_hero()
+            self.build_team_two.add_hero(hero)
+        
+        self.build_team_two.view_all_heroes()
+        # TODO: This method should allow a user to create team two.
+        # 1) Prompt the user for the name of the team
+        # 2) Prompt the user for the number of Heroes on the team
+        # 3) Instantiate a new Team object,
+        # using the team name obtained from user input
+        # 4) use a loop to call self.create_hero() for the number
+        # of heroes the user specified the team should have,
+        # and then add the heroes to the team.
+
 if __name__ == "__main__":
     hero = Hero("Wonder Woman")
     weapon = Weapon("Lasso of Truth", 90)
