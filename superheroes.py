@@ -201,14 +201,14 @@ class Arena:
            add_item = input("[1] Add ability\n[2] Add weapon\n[3] Add armor\n[4] Done adding items\n\nYour choice: ")
            if add_item == "1":
                hero_ability = input("Ability: ")
-               ability = Ability(hero_ability)
+               ability = Ability(hero_ability, 50)
            elif add_item == "2":
                hero_weapon = input("Weapon: ")
-               weapon = Weapon(hero_weapon)
+               weapon = Weapon(hero_weapon, 100)
                input("What weapon do they use?: ")
            elif add_item == "3":
                hero_armor = input("Armor type: ")
-               armor = Armor(hero_armor)
+               armor = Armor(hero_armor, 50)
 
         return hero
 
@@ -222,15 +222,6 @@ class Arena:
             self.build_team_one.add_hero(hero)
         
         self.build_team_one.view_all_heroes()
-        # TODO: This method should allow a user to create team one.
-        # 1) Prompt the user for the name of the team
-        # 2) Prompt the user for the number of Heroes on the team
-        # 3) Instantiate a new Team object,
-        # using the team name obtained from user input
-        # 4) use a loop to call self.create_hero() for the number
-        # of heroes the user specified the team should have,
-        # and then add the heroes to the team.
-        pass
 
     def build_team_two(self):
         name = input("Team 2 Name: ")
@@ -242,17 +233,48 @@ class Arena:
             self.build_team_two.add_hero(hero)
         
         self.build_team_two.view_all_heroes()
-        # TODO: This method should allow a user to create team two.
-        # 1) Prompt the user for the name of the team
-        # 2) Prompt the user for the number of Heroes on the team
-        # 3) Instantiate a new Team object,
-        # using the team name obtained from user input
-        # 4) use a loop to call self.create_hero() for the number
-        # of heroes the user specified the team should have,
-        # and then add the heroes to the team.
+       
+    # Method that has the two teams fight each other
+    def team_battle(self):
+        self.winning_team = self.build_team_one.attack(self.build_team_two)
+    
+    # Method that prints who won the fight and the stats of each Hero on both teams; also shows any surviving Heroes
+    def show_stats(self):
+        print("The winners are: " + self.winning_team)
+        
+        self.build_team_one.stats()
+        self.build_team_two.stats()
+
+        if self.winning_team == self.build_team_one.name:
+            for hero in self.build_team_one.heroes:
+                if hero.status == "Alive":
+                    print("Surviving Heroes: " + hero.name)
+        elif self.winning_team == self.build_team_two.name:
+            for hero in self.build_team_two.heroes:
+                if hero.status == "Alive":
+                    print("Surviving Heroes: " + hero.name)
 
 if __name__ == "__main__":
-    hero = Hero("Wonder Woman")
-    weapon = Weapon("Lasso of Truth", 90)
-    hero.add_weapon(weapon)
-    print(hero.attack())
+    game_is_running = True
+
+    # Instantiate Game Arena
+    arena = Arena()
+
+    #Build Teams
+    arena.build_team_one()
+    arena.build_team_two()
+
+    while game_is_running:
+
+        arena.team_battle()
+        arena.show_stats()
+        play_again = input("Play Again? Y or N: ")
+
+        #Check for Player Input
+        if play_again.lower() == "n":
+            game_is_running = False
+
+        else:
+            #Revive heroes to play again
+            arena.team_one.revive_heroes()
+            arena.team_two.revive_heroes()
