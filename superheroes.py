@@ -203,9 +203,8 @@ class Arena:
                hero_ability = input("Ability: ")
                ability = Ability(hero_ability, 50)
            elif add_item == "2":
-               hero_weapon = input("Weapon: ")
+               hero_weapon = input("What weapon do they use?: ")
                weapon = Weapon(hero_weapon, 100)
-               input("What weapon do they use?: ")
            elif add_item == "3":
                hero_armor = input("Armor type: ")
                armor = Armor(hero_armor, 50)
