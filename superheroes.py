@@ -10,6 +10,18 @@ class Ability:
         rand_hit = random.randint(0,self.max_damage)
         return rand_hit
 
+class Weapon(Ability):
+    def attack(self):
+        weapon_attack = random.randint(self.max_damage//2, self.max_damage)
+        return weapon_attack
+
+class Nuclear(Weapon):
+    """A weapon that damages both hero and oppponent"""
+    def __init__(self, name, max_damage):
+        self.name = name
+        self.max_damage = max_damage
+        self.is_nuclear = True
+
 class Armor:
     def __init__(self, name, max_block):
         self.name = name
@@ -21,23 +33,40 @@ class Armor:
     
 class Hero:
     def __init__(self, name, starting_health=100):
-        self.abilities = list()
-        self.armors = list()
+        self.abilities = []
+        self.armors = []
         self.name = name
         self.starting_health = starting_health
-        self.current_health = starting_health   
+        self.current_health = self.starting_health   
         self.deaths = 0
         self.kills = 0
         self.status = "Alive"
         
     def add_ability(self, ability):
         self.abilities.append(ability)
+        print('{} now has {}.'.format(self.name, ability.name))
     
+    def add_weapon(self, weapon):
+        self.abilities.append(weapon)
+        print('{} now has {}.'.format(self.name, weapon.name))
+
+    # def add_bomb(self, nuclear):
+    #     self.abilites.append(nuclear)
+    #     print('{} now has {}.'.format(self.name, nuclear.name))
+
     def attack(self):
-        total_damage = 0
+
+        damage = 0
         for ability in self.abilities:
-            total_damage += ability.attack()
-        return total_damage
+            dmg = ability.attack()
+            print(f'Attacking with {ability.name} for {dmg} damage.')
+            damage += dmg
+            print('[] | {}'.format(ability.name, damage))
+            # if ability.is_nuclear:
+            #     self_damage = ability.attack()
+            #     print(f'Damaged self flr {self_damage} damage!')
+            #     self.take_damage(self_damage)
+        return damage
 
     def add_armor(self, armor):
         self.armors.append(armor)
@@ -45,18 +74,24 @@ class Hero:
     def defend(self, damage_amt):
         total_block = 0
         for armor in self.armors:
-            total_block += armor.block()
+            bl = armor.block()
+            print(f'Up to {bl} damage blocked with {armor.name}.')
+            total_block += bl
         return total_block
 
     def take_damage(self, damage):
-        defense = self.defend(damage)
-        self.current_health -= damage - defense
+        defense = self.defend(50)-damage
+        if defense < 0:
+            self.current_health += defense
 
     def is_alive(self):
         if self.current_health <= 0:
             return False
-        else:
+        else: 
             return True
+
+    def revive(self):
+        self.current_health = self.starting_health
 
     def add_kill(self, num_kills):
         self.kills += num_kills
@@ -99,10 +134,9 @@ class Hero:
 
     def add_weapon(self, weapon):
         self.abilities.append(weapon)
+        print('{} now has {}.'.format(self.name, weapon.name))
 
-class Weapon(Ability):
-    def attack(self):
-        return random.randint(self.max_damage//2, self.max_damage)
+
 
 class Team:
     def __init__(self, name):
@@ -127,8 +161,9 @@ class Team:
 
     def stats(self):
         for hero in self.heroes:
-            kd = hero.kills / hero.deaths
-            print("{} Kill/Deaths:{}".format(hero.name,kd))
+            if hero.deaths != 0:
+                kd = hero.kills / hero.deaths
+                print("{} Kill/Deaths:{}".format(hero.name,kd))
 
     def revive_heroes(self, health=100):
         for hero in self.heroes:
@@ -170,46 +205,89 @@ class Team:
 
 class Arena:
     def __init__(self):
-        self.team_one = None
-        self.team_two = None
-        self.winning_team = None
+        # self.username = username
+        self.team_one = Team(" One ")
+        self.team_two = Team(" Two ")
 
     def create_ability(self):
-        name = input("What is the ability name?  ")
-        max_damage = input(
-            "What is the max damage of the ability?  ")
-
-        return Ability(name, max_damage)
+        ability_name = input("What is the ability?  ").title()
+        ability_max_dam = ''
+        while not ability_max_dam .isnumeric():
+           ability_max_dam = input('Max. damage of this ability?: ')
+        ability_max_dam = int(ability_max_dam)
+        return Ability(ability_name, ability_max_dam)
 
     def create_weapon(self):
-         name = input("What weapon does this hero use? ")
-         max_damage = input("What is the max damage of the weapon? ")
-         
-         return Weapon(name, max_damage)
+        weapon_name = input("What weapon does this hero use? ").title()
+        weapon_max_dam = ''
+        while not weapon_max_dam.isnumeric():
+            weapon_max_dam = input("What is the max damage of the weapon? ")
+        weapon_max_dam = int(weapon_max_dam)
+        return Weapon(weapon_name, weapon_max_dam)
 
     def create_armor(self):
-        name = input("What kind of armor does this hero use? ")
-        damage_amt = input("What's the blocking power of this armor? ")
-
-        return Armor(name, damage_amt)
+        armor_name = input("What kind of armor does this hero use?: ").title()
+        armor_power = ''
+        while not armor_power.isnumeric():
+            armor_power = input("What's the blocking power of this armor?: ")
+        armor_power = int(armor_power)
+        return Armor(armor_name, armor_power)
 
     def create_hero(self):
-        hero_name = input("Hero's name: ")
+        hero_name = input("Hero's name: ").title()
         hero = Hero(hero_name)
-        add_item = None
-        while add_item != "4":
-           add_item = input("[1] Add ability\n[2] Add weapon\n[3] Add armor\n[4] Done adding items\n\nYour choice: ")
-           if add_item == "1":
-               hero_ability = input("Ability: ")
-               ability = Ability(hero_ability, 50)
-           elif add_item == "2":
-               hero_weapon = input("What weapon do they use?: ")
-               weapon = Weapon(hero_weapon, 100)
-           elif add_item == "3":
-               hero_armor = input("Armor type: ")
-               armor = Armor(hero_armor, 50)
+        hero_health = ''
+        while not hero_health.isnumeric():
+            hero_health = input("What's our hero's maximum health?: ")
+        hero_health = int(hero_health)
+        hero = Hero(hero_name, hero_health)
 
+        abilities_count = ''
+        while not abilities_count.isnumeric():
+            abilities_count = input("Number of abilities: ")
+        abilities_count = int(abilities_count)
+        for x in range(0, abilities_count):
+            hero.add_ability(self.create_ability())
+
+        weapons_count = ''
+        while not weapons_count.isnumeric():
+            weapons_count = input("How many weapons?: ")
+        weapons_count = int(weapons_count)
+        for x in range(0, weapons_count):
+            hero.add_weapon(self.create_weapon())
+
+        armors_count = ''
+        while not armors_count.isnumeric():
+            armors_count = input("How many pieces of armor does this hero wear?: ")
+        armors_count = int(armors_count)
+        for x in range(0, armors_count):
+            hero.add_armor(self.create_armor())
+            
         return hero
+
+
+        # # hero = Hero(hero_name, starting_health)
+
+        # def inputter(): 
+        # -1
+        # while inputter < 0:
+        #     try: inputter = int(
+        # add_item = None
+        # while add_item != "4":
+        #    add_item = input("[1] Add ability\n[2] Add weapon\n[3] Add armor\n[4] Done adding items\n\nYour choice: ")
+        #    if add_item == "1":
+        #        hero_ability = self.create_ability()
+        #        ability = Ability(hero_ability) 
+
+        #    elif add_item == "2":
+        #        hero_weapon = self.create_weapon()
+        #        weapon = Weapon(hero_weapon, 100)
+        #    elif add_item == "3":
+        #        hero_armor = input("Armor type: ")
+        #        armor = Armor(hero_armor, 50)
+
+        # return hero
+
 
     def build_team_one(self):
         name = input("Team 1 Name: ")
