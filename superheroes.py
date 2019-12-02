@@ -59,9 +59,9 @@ class Hero:
         damage = 0
         for ability in self.abilities:
             dmg = ability.attack()
-            print(f'Attacking with {ability.name} for {dmg} damage.')
+            print(f'{self.name} attacking with {ability.name} for {dmg} damage.')
             damage += dmg
-            print('[] | {}'.format(ability.name, damage))
+            print('{} | {}'.format(ability.name, damage))
             # if ability.is_nuclear:
             #     self_damage = ability.attack()
             #     print(f'Damaged self flr {self_damage} damage!')
@@ -264,30 +264,6 @@ class Arena:
             hero.add_armor(self.create_armor())
             
         return hero
-
-
-        # # hero = Hero(hero_name, starting_health)
-
-        # def inputter(): 
-        # -1
-        # while inputter < 0:
-        #     try: inputter = int(
-        # add_item = None
-        # while add_item != "4":
-        #    add_item = input("[1] Add ability\n[2] Add weapon\n[3] Add armor\n[4] Done adding items\n\nYour choice: ")
-        #    if add_item == "1":
-        #        hero_ability = self.create_ability()
-        #        ability = Ability(hero_ability) 
-
-        #    elif add_item == "2":
-        #        hero_weapon = self.create_weapon()
-        #        weapon = Weapon(hero_weapon, 100)
-        #    elif add_item == "3":
-        #        hero_armor = input("Armor type: ")
-        #        armor = Armor(hero_armor, 50)
-
-        # return hero
-
 
     def build_team_one(self):
         name = input("Team 1 Name: ")
